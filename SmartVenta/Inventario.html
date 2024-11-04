@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventario - Compos</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="scripts.js" defer></script>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Compos</h2>
+        <nav>
+            <ul>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="staff.html">Gestión de Personal</a></li>
+                <li><a href="menu.html">Menú</a></li>
+                <li><a href="reservas.html">Reservas</a></li>
+                <li><a href="pedidos.html">Pedidos/Mesas</a></li>
+                <li><a href="inventario.html" class="active">Inventario</a></li>
+                <li><a href="notificaciones.html">Notificaciones</a></li>
+                <li><a href="perfil.html">Perfil</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="content">
+        <h2>Inventario</h2>
+        <div class="inventario-list">
+            <h3>Productos en Inventario</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Precio</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Tomates</td>
+                        <td>50 kg</td>
+                        <td>$5.00</td>
+                        <td><button>Editar</button> <button>Eliminar</button></td>
+                    </tr>
+                </tbody>
+            </table>
+            <button class="add-button">Agregar Producto</button>
+    </div>
+</body>
+</html>

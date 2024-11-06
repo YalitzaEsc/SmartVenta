@@ -1,0 +1,112 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background-color: #171724; 
+    color: #ffffff;
+}
+
+.main-content {
+    flex: 1;
+    margin-left: 171px;
+  }
+/* Variables de color para reuso */
+:root {
+    --primary-bg: #1e1e2f;;
+    --secondary-bg: #2b2b3b;
+    --primary-color: #ffffff;
+    --secondary-color: #c9c9c9;
+    --highlight-color: #FAC1D9;
+}
+
+.container {
+    padding: 2rem;
+    height: 100vh;
+
+}
+
+.container-header {
+    margin-bottom: 2rem;
+}
+
+.container-header h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+/* Estilos para los divs Cards osea tarjetas */
+.card {
+    background-color: #1e1e2f; /* Tema oscuro */
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-bottom: 1rem;
+  }
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.card-header h3 {
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+/* Estilos para las tablasssssssssss*/
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    white-space: nowrap;
+    background-color: var(--primary-bg);
+}
+
+.table th,
+.table td {
+    padding: 1rem;
+    border-bottom: 1px solid #3e3e4f;
+    color: #ffffff;
+}
+
+.table th {
+    text-align: left;
+    padding: 1rem;
+    color: #b3b3c9;
+    font-weight: 500;
+  
+    background-color: var(--primary-bg);
+}
+
+.table td {
+    color: #d1d1e0;
+}
+
+
+/* Media query para presumidos con pantallas grandes*/
+@media (min-width: 1500px) { 
+    .card {
+        max-width: 1500px; 
+        margin: auto;
+        margin-bottom: 1rem; 
+    }
+    
+    .table {
+        max-width: 1500px; 
+        margin: auto; 
+    }
+    .container-header {
+        padding: 2rem;
+        text-align: center; 
+    }
+    .container-header h2 {
+        font-size: 3rem; 
+    }
+}

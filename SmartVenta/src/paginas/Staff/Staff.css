@@ -1,0 +1,55 @@
+
+
+
+.add-button {
+    background-color: var(--highlight-color);
+    color: rgb(46, 46, 46);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.add-button:hover {
+    background-color: #ff5b89;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 0.5rem;
+    
+}
+
+.edit-button {
+    background-color: #972b77;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.edit-button:hover {
+    background-color: #0873c4;
+}
+
+.delete-button {
+    background-color: #3e1d63;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.delete-button:hover {
+    background-color: #c0392b;
+}   
+

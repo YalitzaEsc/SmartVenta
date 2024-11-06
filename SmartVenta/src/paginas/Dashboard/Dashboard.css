@@ -1,0 +1,35 @@
+
+/* Cards Section */
+.resumen {
+  display: grid;
+  grid-template-columns: repeat(3,1fr); /* Set minimum size for cards */
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.card h3 {
+  color: #e8e9e9;
+  font-size: 1rem;
+  margin: 0 0 0.5rem 0;
+  font-weight: 500;
+}
+
+.card p {
+  color: #c9c9c9;
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.chart {
+  width: 100%;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chart img {
+  max-width: 100%;
+  height: auto;
+}

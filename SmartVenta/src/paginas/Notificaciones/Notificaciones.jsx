@@ -60,8 +60,8 @@ const Notificationes = () => {
     <div className="p-8 lg:max-w-screen-xl m-auto">
       <header className="flex justify-between items-center mb-8">
         <div>
-          <h2 className="text-4xl font-semibold text-foreground">Calendario de Reservas</h2>
-          <p className="text-muted-foreground mt-2">  Gestiona las reservas de manera sencilla</p>
+          <h2 className="text-4xl font-semibold text-foreground">Notificaciones</h2>
+          <p className="text-muted-foreground mt-2">Chequea como se menea</p>
         </div>
       </header>
 

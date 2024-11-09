@@ -19,10 +19,10 @@ const NotFound = () => {
 
           <div className="space-y-2 text-center">
             <h1 className="text-2xl font-semibold text-white">
-              Página no encontrada
+            She&apos;s got me feeling like a teen again.
             </h1>
             <p className="text-gray-400 max-w-sm">
-              She&apos;s got me feeling like a teen again.
+              Feeling like it's teenage love.
             </p>
           </div>
 

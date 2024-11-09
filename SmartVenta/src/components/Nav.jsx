@@ -11,7 +11,7 @@ import {
   Package2
 } from 'lucide-react';
 import { cn } from "@/lib/utils";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Sheet, SheetContent,SheetDescription,SheetTitle ,SheetTrigger } from "@/components/ui/sheet";
 import { Button } from './ui/button';
 const navItems = [
   { path: "/", icon: LayoutDashboard, label: "Dashboard" },
@@ -27,13 +27,12 @@ const Nav = () => {
   return (
     <header>
       <nav className="fixed left-0 top-0 h-screen w-[170px] border-r p-4 space-y-8 flex-col justify-between  hidden md:flex">
-        {/* Logo Section */}
+
         <div>
           <div className="flex items-center justify-center py-4 border-b">
             <h3 className="text-xl font-semibold text-primary">Solo un dia</h3>
           </div>
 
-          {/* Navigation Links */}
           <div className="space-y-2 mt-4">
             {navItems.map(({ path, icon: Icon, label }) => (
               <NavLink
@@ -58,7 +57,6 @@ const Nav = () => {
           </div>
         </div>
 
-        {/* Logout Button */}
         <div className="mt-4">
           <button
             className="w-full flex items-center justify-center gap-2 p-3 rounded-2xl transition-colors duration-200 bg-gray-200 text-gray-800 hover:bg-primary"
@@ -77,6 +75,9 @@ const Nav = () => {
             </Button>
           </SheetTrigger>
           <SheetContent side="left">
+          <SheetTitle></SheetTitle>
+          <SheetDescription>
+      </SheetDescription>
             <nav className="grid gap-6 text-lg font-medium">
               <NavLink
                 to="#" className="flex items-center gap-2 text-lg font-semibold">
@@ -84,24 +85,61 @@ const Nav = () => {
                 <span className="sr-only">Acme Inc</span>
               </NavLink>
               <NavLink
-                to="#" className="text-muted-foreground hover:text-foreground">
+                to="/" 
+                className={({ isActive }) =>
+                  cn(
+                    "flex flex-col items-center justify-center w-full p-3 rounded-2xl transition-colors duration-200",
+                    "hover:bg-primary hover:text-gray-800",
+                    isActive ? "bg-primary text-gray-800" : "text-gray-500"
+                  )
+                }>
                 Dashboard
               </NavLink>
               <NavLink
-                to="#" className="text-muted-foreground hover:text-foreground">
-                Orders
+                to="/gestion"  
+                className={({ isActive }) =>
+                  cn(
+                    "flex flex-col items-center justify-center w-full p-3 rounded-2xl transition-colors duration-200",
+                    "hover:bg-primary hover:text-gray-800",
+                    isActive ? "bg-primary text-gray-800" : "text-gray-500"
+                  )
+                }>
+                Staff
               </NavLink>
               <NavLink
-                to="#" className="text-muted-foreground hover:text-foreground">
-                Products
+                to="/menu" 
+                className={({ isActive }) =>
+                  cn(
+                    "flex flex-col items-center justify-center w-full p-3 rounded-2xl transition-colors duration-200",
+                    "hover:bg-primary hover:text-gray-800",
+                    isActive ? "bg-primary text-gray-800" : "text-gray-500"
+                  )
+                }>
+                Menu
               </NavLink>
               <NavLink
-                to="#" className="text-muted-foreground hover:text-foreground">
-                Customers
+                to="/inventario" 
+                className={({ isActive }) =>
+                  cn(
+                    "flex flex-col items-center justify-center w-full p-3 rounded-2xl transition-colors duration-200",
+                    "hover:bg-primary hover:text-gray-800",
+                    isActive ? "bg-primary text-gray-800" : "text-gray-500"
+                  )
+                }
+                >
+                Inventario
               </NavLink>
               <NavLink
-                to="#" className="hover:text-foreground">
-                Settings
+                to="/notificaciones" 
+                className={({ isActive }) =>
+                  cn(
+                    "flex flex-col items-center justify-center w-full p-3 rounded-2xl transition-colors duration-200",
+                    "hover:bg-primary hover:text-gray-800",
+                    isActive ? "bg-primary text-gray-800" : "text-gray-500"
+                  )
+                }
+                >
+                Notificaciones
               </NavLink>
             </nav>
           </SheetContent>

@@ -8,7 +8,8 @@ import Inventario from './paginas/Inventario/Inventario.jsx'
 import Notificationes from './paginas/Notificaciones/Notificaciones.jsx'
 import Layout from './components/Layout.jsx'
 import NotFound from './components/NotFound.jsx'
-
+import Ordenes from './paginas/Pedidos/Pedidos.jsx'
+import OrdenNueva from './paginas/Pedidos/OrdenNueva.jsx'
 function App() {
   return (
       <Routes>
@@ -18,6 +19,8 @@ function App() {
           <Route path="/menu" element={<Menu />} />
           <Route path="/reservas" element={<Reservas />} />
           <Route path="/inventario" element={<Inventario />} />
+          <Route path="/ordenes" element={<Ordenes />} />
+          <Route path="/nueva-orden" element={<OrdenNueva />} />
           <Route path="/notificaciones" element={<Notificationes />} />
         </Route>
         <Route path="/login" element={<Login />} />

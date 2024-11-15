@@ -12,114 +12,12 @@ import {
     CardHeader,
     CardTitle,
   } from "@/components/ui/card";
-const StaffManagement = ({ searchTerm, setSearchTerm, selectedRole, setSelectedRole }) => {
+const StaffManagement = ({ staffData,searchTerm, setSearchTerm, selectedRole, setSelectedRole }) => {
   const positions = ["Todos", "Cocinero", "Mesera", "Bartender", "Host", "Chef Ejecutivo", "Sous Chef", "Cajera", "Limpieza", "Administradora"];
-  const data = [
-    {
-      id: 1,
-      name: "Gonzalo Gonzales",
-      position: "Cocinero",
-      email: "juan@example.com",
-      phone: "+1 123 456 7890",
-      edad: "45 yr",
-      salario: "2200.00",
-      horario: "9am a 6pm"
-    },
-    {
-      id: 2,
-      name: "Pedro Paramo",
-      position: "Mesera",
-      email: "maria@example.com",
-      phone: "+1 123 456 7891",
-      edad: "35 yr",
-      salario: "2200.00",
-      horario: "9am a 6pm"
-    },
-    {
-      id: 3,
-      name: "López López",
-      position: "Bartender",
-      email: "carlos@example.com",
-      phone: "+1 123 456 7892",
-      edad: "35 yr",
-      salario: "2200.00",
-      horario: "9am a 6pm"
-    },
-    {
-      id: 4,
-      name: "Ana Martínez",
-      position: "Host",
-      email: "ana@example.com",
-      phone: "+1 123 456 7893",
-      edad: "25 yr",
-      salario: "2200.00",
-      horario: "9am a 6pm"
-    },
-    {
-      id: 5,
-      name: "Roberto Sánchez",
-      position: "Chef Ejecutivo",
-      email: "roberto@example.com",
-      phone: "+1 123 456 7894",
-      edad: "15 yr",
-      salario: "2200.00",
-      horario: "9am a 6pm"
-    },
-    {
-      id: 6,
-      name: "Laura Torres",
-      position: "Sous Chef",
-      email: "laura@example.com",
-      phone: "+1 123 456 7895",
-      edad: "5 yr",
-      salario: "2200.00",
-      horario: "9am a 6pm"
-    },
-    {
-      id: 7,
-      name: "Diego Ramírez",
-      position: "Mesero",
-      email: "diego@example.com",
-      phone: "+1 123 456 7896",
-      edad: "75 yr",
-      salario: "2200.00",
-      horario: "9am a 6pm"
-    },
-    {
-      id: 8,
-      name: "Patricia Flores",
-      position: "Cajera",
-      email: "patricia@example.com",
-      phone: "+1 123 456 7897",
-      edad: "85 yr",
-      salario: "2200.00",
-      horario: "9am a 6pm"
-    },
-    {
-      id: 9,
-      name: "Miguel Herrera",
-      position: "Limpieza",
-      email: "miguel@example.com",
-      phone: "+1 123 456 7898",
-      edad: "15 yr",
-      salario: "2200.00",
-      horario: "9am a 6pm"
-    },
-    {
-      id: 10,
-      name: "Sofia Vargas",
-      position: "Administradora",
-      email: "sofia@example.com",
-      phone: "+1 123 456 7899",
-      edad: "115 yr",
-      salario: "2200.00",
-      horario: "9am a 6pm"
-    }
-  ];
 
-  const filteredData = data.filter(employee => {
-    const matchesSearch = employee.name.toLowerCase().includes(searchTerm.toLowerCase()) || employee.email.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesRole = selectedRole === "all" || employee.position === selectedRole;
+  const filteredData = staffData.filter(employee => {
+    const matchesSearch = employee.nombre.toLowerCase().includes(searchTerm.toLowerCase()) || employee.correo.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesRole = selectedRole === "all" || employee.rol === selectedRole;
     return matchesSearch && matchesRole;
   });
 
@@ -165,7 +63,6 @@ const StaffManagement = ({ searchTerm, setSearchTerm, selectedRole, setSelectedR
                     <TableHead>Empleado</TableHead>
                     <TableHead>Contacto</TableHead>
                     <TableHead>Cargo</TableHead>
-                    <TableHead>Edad</TableHead>
                     <TableHead>Salario</TableHead>
                     <TableHead>Horario</TableHead>
                     <TableHead className="text-right">Acciones</TableHead>
@@ -177,11 +74,10 @@ const StaffManagement = ({ searchTerm, setSearchTerm, selectedRole, setSelectedR
                       <TableCell className="font-medium">
                         <div className="flex items-center gap-2">
                           <div className="h-8 w-8 rounded-full bg-secondary flex items-center justify-center">
-                            {employee.name.charAt(0)}
+                            {employee.nombre.charAt(0)}
                           </div>
                           <div>
-                            <div className="font-medium">{employee.name}</div>
-                            <div className="text-sm text-muted-foreground">{employee.shift}</div>
+                            <div className="font-medium">{employee.nombre}</div>
                           </div>
                         </div>
                       </TableCell>
@@ -189,11 +85,11 @@ const StaffManagement = ({ searchTerm, setSearchTerm, selectedRole, setSelectedR
                         <div className="flex flex-col gap-1">
                           <div className="flex items-center gap-2">
                             <Mail className="h-4 w-4 text-muted-foreground" />
-                            <span className="text-sm">{employee.email}</span>
+                            <span className="text-sm">{employee.correo}</span>
                           </div>
                           <div className="flex items-center gap-2">
                             <Phone className="h-4 w-4 text-muted-foreground" />
-                            <span className="text-sm">{employee.phone}</span>
+                            <span className="text-sm">{employee.telfono}</span>
                           </div>
                         </div>
                       </TableCell>
@@ -201,7 +97,7 @@ const StaffManagement = ({ searchTerm, setSearchTerm, selectedRole, setSelectedR
                         <div>
                           <Badge variant="secondary" className="mb-1">
                             <BadgeCheck className="h-3 w-3 mr-1" />
-                            {employee.position}
+                            {employee.rol}
                           </Badge>
                           <div className="flex gap-1 flex-wrap">
                             {employee.specialties?.map((specialty) => (
@@ -211,12 +107,7 @@ const StaffManagement = ({ searchTerm, setSearchTerm, selectedRole, setSelectedR
                             ))}
                           </div>
                         </div>
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex flex-col gap-1">                          
-                            <span className="text-sm">{employee.edad}</span>                          
-                        </div>
-                      </TableCell>
+                      </TableCell>          
                       <TableCell>
                         <div className="flex flex-col gap-1">                          
                             <span className="text-sm">$ {employee.salario}</span>                          
@@ -224,7 +115,7 @@ const StaffManagement = ({ searchTerm, setSearchTerm, selectedRole, setSelectedR
                       </TableCell>
                       <TableCell>
                         <div className="flex flex-col gap-1">                          
-                            <span className="text-sm">{employee.horario}</span>                          
+                            <span className="text-sm">{employee.horarioInicio} a {employee.horarioFinal}</span>                          
                         </div>
                       </TableCell>
                       <TableCell className="text-right">
@@ -236,9 +127,7 @@ const StaffManagement = ({ searchTerm, setSearchTerm, selectedRole, setSelectedR
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
                             <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-                            <DropdownMenuItem>Editar</DropdownMenuItem>
-                            <DropdownMenuItem>Ver horarios</DropdownMenuItem>
-                            <DropdownMenuItem>Gestionar permisos</DropdownMenuItem>
+                            <DropdownMenuItem>Editar</DropdownMenuItem>                          
                             <DropdownMenuItem className="text-destructive">
                               Eliminar
                             </DropdownMenuItem>

@@ -24,7 +24,7 @@ import { Pencil, Trash2, Filter, X } from 'lucide-react';
 const mockInventoryItems = [
   {
     name: "Filete de Res Premium",
-    status: "Active",
+    status: "Disponible",
     stock: "45 kg",
     category: "Carnes",
     price: "$28.99/kg",
@@ -40,7 +40,7 @@ const mockInventoryItems = [
   },
   {
     name: "Vino Tinto Reserva",
-    status: "Active",
+    status: "Disponible",
     stock: "32 botellas",
     category: "Bebidas",
     price: "$45.00/u",
@@ -48,7 +48,7 @@ const mockInventoryItems = [
   },
   {
     name: "Camarones Frescos",
-    status: "Active",
+    status: "Disponible",
     stock: "15 kg",
     category: "Mariscos",
     price: "$35.99/kg",
@@ -64,7 +64,7 @@ const mockInventoryItems = [
   },
   {
     name: "Aceite de Oliva Extra Virgen",
-    status: "Active",
+    status: "Disponible",
     stock: "25 litros",
     category: "Aceites",
     price: "$18.99/l",
@@ -107,7 +107,7 @@ const Inventario = () => {
                 <span className="bg-primary/10 text-primary px-2 py-0.5 rounded">150</span>
               </Button>
               <Button variant="outline" className="w-full justify-between">
-                Activos
+                Disponibles
                 <span className="text-muted-foreground">120</span>
               </Button>
               <Button variant="outline" className="w-full justify-between">
@@ -137,19 +137,7 @@ const Inventario = () => {
             </Select>
           </div>
 
-          <div>
-            <h3 className="text-sm font-medium mb-3">Unidad de Medida</h3>
-            <Select>
-              <SelectTrigger>
-                <SelectValue placeholder="Todas" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="kg">Kilogramos</SelectItem>
-                <SelectItem value="l">Litros</SelectItem>
-                <SelectItem value="u">Unidades</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+   
 
           <div>
             <h3 className="text-sm font-medium mb-3">Rango de Precio</h3>

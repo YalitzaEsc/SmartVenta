@@ -4,8 +4,18 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { PlusCircle } from 'lucide-react';
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "./ui/label";
+
+const categories = [
+  "Carnes",
+  "Mariscos",
+  "Pasta",
+  "Bebidas",
+  "Lácteos",
+  "Aceites",
+  "Especias",
+  "Verduras"
+];
 const InventarioForm = () => {
   return (
     <Sheet>
@@ -17,7 +27,7 @@ const InventarioForm = () => {
     </SheetTrigger>
     <SheetContent className="overflow-y-auto">
     <SheetHeader>
-          <SheetTitle className="text-white text-xl">Add New Inventory</SheetTitle>
+          <SheetTitle className="text-white text-xl">Agregar Nuevo Inventario</SheetTitle>
         </SheetHeader>
         
         <div className="mt-6 space-y-6">
@@ -39,20 +49,18 @@ const InventarioForm = () => {
               <Label className="text-zinc-400">Nombre</Label>
               <Input 
                 placeholder="nombre del nuevo inventario"
-                className="mt-1.5 bg-zinc-800 border-none text-white"
+                className="mt-1.5 bg-muted/50 border-none text-white"
               />
             </div>
 
             <div>
               <Label className="text-zinc-400">Categoria</Label>
               <Select>
-                <SelectTrigger className="mt-1.5 bg-zinc-800 border-none text-white">
-                  <SelectValue placeholder="morire" />
+                <SelectTrigger className="mt-1.5 bg-muted/50 border-none text-white">
+                  <SelectValue placeholder="todo lo que tu me pidas" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">Todo</SelectItem>
-                  <SelectItem value="food">Comida</SelectItem>
-                  <SelectItem value="drinks">Bebidas</SelectItem>
+                  {categories.map(cat => <SelectItem key={cat}value={cat}>{cat}</SelectItem>)}
                 </SelectContent>
               </Select>
             </div>
@@ -62,57 +70,18 @@ const InventarioForm = () => {
                 <Label className="text-zinc-400">Cantidad</Label>
                 <Input 
                 placeholder="ingresa cantidad"
-                className="mt-1.5 bg-zinc-800 border-none text-white"
+                className="mt-1.5 bg-muted/50 border-none text-white"
               />
               </div>
 
-              <div>
-                <Label className="text-zinc-400">Stock</Label>
-                <Select>
-                  <SelectTrigger className="mt-1.5 bg-zinc-800 border-none text-white">
-                    <SelectValue placeholder="instock" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="instock">En Stock</SelectItem>
-                    <SelectItem value="outofstock">Sin existencia</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-
-            <div>
-              <Label className="text-zinc-400">Estatus</Label>
-              <Select>
-                <SelectTrigger className="mt-1.5 bg-zinc-800 border-none text-white">
-                  <SelectValue placeholder="Active" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="activo">Activo</SelectItem>
-                  <SelectItem value="inactivo">Inactivo</SelectItem>
-                </SelectContent>
-              </Select>
             </div>
 
             <div>
               <Label className="text-zinc-400">Precio</Label>
               <Input 
-                placeholder="Enter inventory price"
-                className="mt-1.5 bg-zinc-800 border-none text-white"
+                placeholder="Ingresa precio de inventario"
+                className="mt-1.5 bg-muted/50 border-none text-white"
               />
-            </div>
-
-            <div>
-              <Label className="text-zinc-400 block mb-2">Caduc...</Label>
-              <RadioGroup defaultValue="yes" className="flex gap-4">
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="yes" id="yes" className="text-pink-400" />
-                  <Label htmlFor="yes" className="text-white">Si</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="no" id="no" />
-                  <Label htmlFor="no" className="text-white">No</Label>
-                </div>
-              </RadioGroup>
             </div>
           </div>
 

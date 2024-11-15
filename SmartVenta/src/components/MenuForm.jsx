@@ -18,7 +18,7 @@ const MenuForm = () => {
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
-          <SheetTitle>Agregar nuevo platillo</SheetTitle>
+          <SheetTitle>Agregar Nueva Categoria</SheetTitle>
         </SheetHeader>
         <div className="mt-8 space-y-6">
           <div className="flex flex-col items-center justify-center p-8 border-2 border-dashed rounded-lg bg-muted/50">
@@ -35,31 +35,31 @@ const MenuForm = () => {
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium">Category Name</label>
+            <label className="text-sm font-medium">Nombre de Categoria</label>
             <Input 
-              placeholder="Enter Category name"
+              placeholder="Ingresa el nombre..."
               className="bg-muted"
             />
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium">Select Menu</label>
+            <label className="text-sm font-medium">Menu</label>
             <Select>
               <SelectTrigger className="bg-muted">
-                <SelectValue placeholder="Select menu" />
+                <SelectValue placeholder="Selecciona menu" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="breakfast">Breakfast Menu</SelectItem>
-                <SelectItem value="lunch">Lunch Menu</SelectItem>
-                <SelectItem value="dinner">Dinner Menu</SelectItem>
+                <SelectItem value="breakfast">Menu de Desayunos</SelectItem>
+                <SelectItem value="lunch">Menu de Comida</SelectItem>
+                <SelectItem value="dinner">Menu de Cenas</SelectItem>
               </SelectContent>
             </Select>
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium">Description</label>
+            <label className="text-sm font-medium">Descripcion</label>
             <Textarea 
-              placeholder="write your category description here"
+              placeholder="i turn my headlights on and suddenly i see everything"
               className="min-h-[120px] bg-muted"
             />
           </div>

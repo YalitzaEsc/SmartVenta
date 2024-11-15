@@ -13,12 +13,14 @@ import {
 import { cn } from "@/lib/utils";
 import { Sheet, SheetContent,SheetDescription,SheetTitle ,SheetTrigger } from "@/components/ui/sheet";
 import { Button } from './ui/button';
+import logo from '../assets/logo.png'; 
+
 const navItems = [
   { path: "/", icon: LayoutDashboard, label: "Dashboard" },
   { path: "/gestion", icon: Users, label: "Personal" },
   { path: "/menu", icon: ClipboardList, label: "Menú" },
   { path: "/reservas", icon: ClipboardList, label: "Reservas" },
-  { path: "/pedidos", icon: Utensils, label: "Pedidos/Mesas" },
+  { path: "/ordenes", icon: Utensils, label: "Pedidos/Mesas" },
   { path: "/inventario", icon: Box, label: "Inventario" },
   { path: "/notificaciones", icon: Bell, label: "Notificaciones" },
 ];
@@ -30,7 +32,7 @@ const Nav = () => {
 
         <div>
           <div className="flex items-center justify-center py-4 border-b">
-            <h3 className="text-xl font-semibold text-primary">Solo un dia</h3>
+            <img src={logo} alt="" />
           </div>
 
           <div className="space-y-2 mt-4">

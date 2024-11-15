@@ -1,39 +1,40 @@
-/* eslint-disable react/prop-types */
+
 import { useState } from 'react';
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetFooter } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Image, UserPlus } from 'lucide-react';
 
-const StaffForm = () => {
+const StaffForm = ({addNewStaff}) => {
   const [newStaff, setNewStaff] = useState({
-    fullName: "",
-    email: "",
-    role: "",
-    phone: "",
-    salary: "",
-    dateOfBirth: "",
-    shiftStart: "",
-    shiftEnd: "",
-    address: "",
-    additionalDetails: ""
+    nombre: "",
+    correo: "",
+    rol: "",
+    telfono: "",
+    salario: "",
+    fechaDeNacimiento: "",
+    horarioInicio: "",
+    horarioFinal: "",
+    direccion: "",
+    detallesAdicionales: ""
   });
 
-  const handleNewStaffChange = (field) => (e) => {
-    setNewStaff(prev => ({
-      ...prev,
-      [field]: e.target.value
-    }));
+  const handleInputChange = (field) => (e) => {
+    setNewStaff((prev) => ({ ...prev, [field]: e.target.value }));
   };
 
-  const handleSubmit = () => {
-    // Implementación de la lógica de envío
-    console.log(newStaff);
+  const handleSubmit = async () => {
+    try {
+      addNewStaff(newStaff);
+      setNewStaff({nombre: "", correo: "", rol: "", telefono: "", salario: "", horarioInicio: "", horarioFinal: "", }); 
+    } catch (error) {
+      console.error("Error adding new staff:", error);
+    }
   };
+
 
   const positions = [
     "Todos",
@@ -56,12 +57,11 @@ const StaffForm = () => {
           Agregar Personal
         </Button>
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent className="overflow-y-auto">
         <SheetHeader>
           <SheetTitle>Agregar nuevo personal</SheetTitle>
         </SheetHeader>
         <div className="space-y-6 py-6">
-          {/* Form fields */}
           <div className="flex flex-col items-center gap-4">
             <Avatar className="h-24 w-24">
               <AvatarImage />
@@ -72,14 +72,13 @@ const StaffForm = () => {
             <Button variant="outline" size="sm">Cambiar foto de perfil</Button>
           </div>
           <div className="grid grid-cols-2 gap-4">
-            {/* Full Name */}
-            <InputWithLabel id="fullName" label="Nombre completo" value={newStaff.fullName} onChange={handleNewStaffChange('fullName')} />
-            {/* Email */}
-            <InputWithLabel id="email" type="email" label="Correo electrónico" value={newStaff.email} onChange={handleNewStaffChange('email')} />
-            {/* Role */}
+            <InputWithLabel id="nombre" label="Nombre completo" value={newStaff.nombre} onChange={handleInputChange('nombre')} />
+
+            <InputWithLabel id="correo" type="email" label="Correo electrónico" value={newStaff.correo} onChange={handleInputChange('correo')} />
+
             <div className="space-y-2">
               <Label htmlFor="role">Cargo</Label>
-              <Select value={newStaff.role} onValueChange={(value) => setNewStaff(prev => ({ ...prev, role: value }))}>
+              <Select value={newStaff.rol} onValueChange={(value) => setNewStaff(prev => ({ ...prev, rol: value }))}>
                 <SelectTrigger>
                   <SelectValue placeholder="Seleccionar cargo" />
                 </SelectTrigger>
@@ -91,29 +90,20 @@ const StaffForm = () => {
               </Select>
             </div>
 
-            <InputWithLabel id="phone" label="Teléfono" value={newStaff.phone} onChange={handleNewStaffChange('phone')} />
+            <InputWithLabel id="telfono" label="Teléfono" value={newStaff.telfono} onChange={handleInputChange('telfono')} />
 
-            <InputWithLabel id="salary" label="Salario" value={newStaff.salary} onChange={handleNewStaffChange('salary')} />
+            <InputWithLabel id="salario" label="Salario" value={newStaff.salario} onChange={handleInputChange('salario')} />
 
-            <InputWithLabel id="dateOfBirth" type="date" label="Fecha de nacimiento" value={newStaff.dateOfBirth} onChange={handleNewStaffChange('dateOfBirth')} />
+            <InputWithLabel id="fechaDeNacimiento" type="date" label="Fecha de nacimiento" value={newStaff.fechaDeNacimiento} onChange={handleInputChange('fechaDeNacimiento')} />
 
-            <InputWithLabel id="shiftStart" type="time" label="Hora de entrada" value={newStaff.shiftStart} onChange={handleNewStaffChange('shiftStart')} />
+            <InputWithLabel id="horarioInicio" type="time" label="Hora de entrada" value={newStaff.horarioInicio} onChange={handleInputChange('horarioInicio')} />
 
-            <InputWithLabel id="shiftEnd" type="time" label="Hora de salida" value={newStaff.shiftEnd} onChange={handleNewStaffChange('shiftEnd')} />
+            <InputWithLabel id="horarioFinal" type="time" label="Hora de salida" value={newStaff.horarioFinal} onChange={handleInputChange('horarioFinal')} />
           </div>
  
-          <InputWithLabel id="address" label="Dirección" value={newStaff.address} onChange={handleNewStaffChange('address')} />
+          <InputWithLabel id="direccion" label="Dirección" value={newStaff.direccion} onChange={handleInputChange('direccion')} />
  
-          <div className="space-y-2">
-            <Label htmlFor="additionalDetails">Detalles adicionales</Label>
-            <Textarea
-              id="additionalDetails"
-              placeholder="Ingrese cualquier información adicional relevante"
-              value={newStaff.additionalDetails}
-              onChange={handleNewStaffChange('additionalDetails')}
-              className="min-h-[100px]"
-            />
-          </div>
+    
         </div>
         <SheetFooter className="flex-row gap-3 sm:justify-end">
           <Button variant="outline">Cancelar</Button>

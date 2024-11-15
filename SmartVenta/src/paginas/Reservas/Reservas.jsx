@@ -93,7 +93,7 @@ const Reservas = () => {
               <DialogTitle>Nueva Reserva</DialogTitle>
             </DialogHeader>
             <div className="space-y-4 pt-4">
-              <p>Formulario de reserva (personalizable según necesidades)</p>
+              <p>She looked like me!</p>
             </div>
           </DialogContent>
         </Dialog>

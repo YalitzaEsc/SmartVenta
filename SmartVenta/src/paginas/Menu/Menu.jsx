@@ -126,7 +126,7 @@ const Menu = () => {
                 </div>
               </div>
 
-              <MenuForm2 />
+              
             </div>
 
           </CardHeader>

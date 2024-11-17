@@ -38,7 +38,7 @@ const MenuForm2 = () => {
           <div className="w-32 h-32 mb-4 flex items-center justify-center bg-muted rounded-lg">
             <img
               src="/api/placeholder/128/128"
-              alt="Food placeholder"
+              alt=""
               className="w-32 h-32 rounded-lg object-cover"
             />
           </div>

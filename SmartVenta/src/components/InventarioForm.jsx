@@ -1,106 +1,201 @@
-
-import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+import { useState, useEffect } from "react";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger, SheetFooter } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { PlusCircle } from 'lucide-react';
-import { Label } from "./ui/label";
+import axios from 'axios';
 
-const categories = [
-  "Carnes",
-  "Mariscos",
-  "Pasta",
-  "Bebidas",
-  "Lácteos",
-  "Aceites",
-  "Especias",
-  "Verduras"
-];
 const InventarioForm = () => {
+  const [nombre, setNombre] = useState('');
+  const [categoria, setCategoria] = useState('');
+  const [categorias, setCategorias] = useState([]);
+  const [precio, setPrecio] = useState('');
+  const [costo, setCosto] = useState('');
+  const [calorias, setCalorias] = useState('');
+  const [cantidad, setCantidad] = useState('');
+  const [disponibilidad, setDisponibilidad] = useState('Disponible');
+  const [isOpen, setIsOpen] = useState(false); // Controlar apertura del formulario
+
+  // Cargar categorías al montar el componente
+  useEffect(() => {
+    const fetchCategorias = async () => {
+      try {
+        const response = await axios.get('/api/categorias');
+        setCategorias(response.data);
+      } catch (error) {
+        console.error('Error al cargar categorías:', error);
+        alert('No se pudieron cargar las categorías');
+      }
+    };
+
+    fetchCategorias();
+  }, []);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Validar campos
+    if (!nombre || !categoria || !precio || !costo || !cantidad || !calorias) {
+      alert('Todos los campos son obligatorios.');
+      return;
+    }
+
+    try {
+      const response = await axios.post('/api/platillos', {
+        nombre,
+        categoria,
+        precio,
+        costo,
+        calorias,
+        cantidad_stock: cantidad,
+        disponibilidad,
+      });
+
+      console.log('Platillo creado:', response.data.platillo);
+      alert('Platillo creado exitosamente');
+
+      // Limpiar los campos después de guardar
+      setNombre('');
+      setCategoria('');
+      setPrecio('');
+      setCosto('');
+      setCantidad('');
+      setCalorias('');
+      setDisponibilidad('Disponible');
+
+      // Cerrar el formulario
+      setIsOpen(false);
+    } catch (error) {
+      console.error('Error al crear platillo:', error);
+      alert('Hubo un error al crear el platillo');
+    }
+  };
+
+  const handleCancel = () => {
+    // Limpiar los campos al cancelar
+    setNombre('');
+    setCategoria('');
+    setPrecio('');
+    setCosto('');
+    setCantidad('');
+    setCalorias('');
+    setDisponibilidad('Disponible');
+
+    // Cerrar el formulario
+    setIsOpen(false);
+  };
+
   return (
-    <Sheet>
-    <SheetTrigger asChild>
-      <Button className="gap-2">
-        <PlusCircle className="h-4 w-4" />
-        Agregar Platillo
-      </Button>
-    </SheetTrigger>
-    <SheetContent className="overflow-y-auto">
-    <SheetHeader>
-          <SheetTitle className="text-white text-xl">Agregar Nuevo Inventario</SheetTitle>
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
+      <SheetTrigger asChild>
+        <Button className="gap-2" onClick={() => setIsOpen(true)}>
+          <PlusCircle className="h-4 w-4" />
+          Agregar Platillo
+        </Button>
+      </SheetTrigger>
+      <SheetContent className="overflow-y-auto">
+        <SheetHeader>
+          <SheetTitle>Agregar nuevo platillo</SheetTitle>
         </SheetHeader>
-        
-        <div className="mt-6 space-y-6">
-          <div className="flex flex-col items-center justify-center p-8 border-2 border-dashed rounded-lg bg-muted/50">
-            <div className="w-24 h-24 mb-4 flex items-center justify-center bg-muted rounded-lg">
-              <img
-                src="/api/placeholder/96/96"
-                alt="Icon placeholder"
-                className="w-12 h-12 text-muted-foreground"
-              />
-            </div>
-            <Button variant="link" className="text-primary">
-              Cambiar Icono
-            </Button>
-          </div>
-
-          <div className="space-y-4">
-            <div>
-              <Label className="text-zinc-400">Nombre</Label>
-              <Input 
-                placeholder="nombre del nuevo inventario"
-                className="mt-1.5 bg-muted/50 border-none text-white"
+        <form onSubmit={handleSubmit}>
+          <div className="mt-8 space-y-6">
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Nombre del platillo</label>
+              <Input
+                placeholder="Ej: Ensalada César"
+                className="bg-muted"
+                value={nombre}
+                onChange={(e) => setNombre(e.target.value)}
               />
             </div>
 
-            <div>
-              <Label className="text-zinc-400">Categoria</Label>
-              <Select>
-                <SelectTrigger className="mt-1.5 bg-muted/50 border-none text-white">
-                  <SelectValue placeholder="todo lo que tu me pidas" />
+            {/* Categoría */}
+            <div className="space-y-2">
+              <label className="text-sm font-medium">Categoría</label>
+              <Select onValueChange={setCategoria} value={categoria}>
+                <SelectTrigger className="bg-muted">
+                  <SelectValue>
+                    {categoria
+                      ? categorias.find((cat) => cat.id_categoria === parseInt(categoria, 10))?.nombre
+                      : 'Selecciona una categoría'}
+                  </SelectValue>
                 </SelectTrigger>
                 <SelectContent>
-                  {categories.map(cat => <SelectItem key={cat}value={cat}>{cat}</SelectItem>)}
+                  {categorias.map((cat) => (
+                    <SelectItem key={cat.id_categoria} value={cat.id_categoria.toString()}>
+                      {cat.nombre}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
             </div>
 
+            {/* Precio y Costo */}
             <div className="grid grid-cols-2 gap-4">
-              <div>
-                <Label className="text-zinc-400">Cantidad</Label>
-                <Input 
-                placeholder="ingresa cantidad"
-                className="mt-1.5 bg-muted/50 border-none text-white"
-              />
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Precio</label>
+                <Input
+                  type="number"
+                  placeholder="0.00"
+                  className="bg-muted"
+                  value={precio}
+                  onChange={(e) => setPrecio(e.target.value)}
+                />
               </div>
-
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Costo de preparación</label>
+                <Input
+                  type="number"
+                  placeholder="0.00"
+                  className="bg-muted"
+                  value={costo}
+                  onChange={(e) => setCosto(e.target.value)}
+                />
+              </div>
             </div>
 
-            <div>
-              <Label className="text-zinc-400">Precio</Label>
-              <Input 
-                placeholder="Ingresa precio de inventario"
-                className="mt-1.5 bg-muted/50 border-none text-white"
-              />
+            {/* Calorías y Cantidad */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Calorías</label>
+                <Input
+                  placeholder="Ej: 350 kcal"
+                  className="bg-muted"
+                  value={calorias}
+                  onChange={(e) => setCalorias(e.target.value)}
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Cantidad en unidades</label>
+                <Input
+                  placeholder="Ej: 10"
+                  className="bg-muted"
+                  value={cantidad}
+                  onChange={(e) => setCantidad(e.target.value)}
+                />
+              </div>
             </div>
           </div>
 
-          <div className="flex gap-4 mt-8">
-            <Button 
-              variant="ghost" 
-              className="flex-1 text-white hover:bg-zinc-800"
-            >
-              Cancelar
-            </Button>
-            <Button 
-              className="flex-1 bg-primary text-white hover:bg-pink-500"
-            >
-              Guardar
-            </Button>
-          </div>
-        </div>
+          <SheetFooter className="sticky bottom-0 left-0 right-0 p-6 bg-background border-t mt-6">
+            <div className="flex w-full gap-4">
+              <Button
+                variant="outline"
+                className="flex-1"
+                type="button"
+                onClick={handleCancel}
+              >
+                Cancelar
+              </Button>
+              <Button className="flex-1" type="submit">
+                Guardar
+              </Button>
+            </div>
+          </SheetFooter>
+        </form>
       </SheetContent>
-  </Sheet>
+    </Sheet>
   );
 };
 

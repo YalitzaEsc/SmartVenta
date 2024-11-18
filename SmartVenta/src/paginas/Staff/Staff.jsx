@@ -6,71 +6,21 @@ import StaffAsistencia from '@/components/StaffAsistencia';
 
 const Staff = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedRole, setSelectedRole] = useState("all");
+  const [selectedRole, setSelectedRole] = useState("Todos");
   const [staffData, setStaffData] = useState([]);
+  const [attendanceData, setAttendanceData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch de la API
+  // Fetch de la API para Staff
   useEffect(() => {
     const fetchStaffData = async () => {
       setLoading(true);
       try {
-        const response = await fetch('/api/staff');
-        const data = [
-          {
-            id: 1,
-            nombre: "Gonzalo Gonzales",
-            rol: "Cocinero",
-            correo: "juan@example.com",
-            telfono: "+1 123 456 7890",
-            salario: "2200.00",
-            horarioInicio: "09:00",
-            horarioFinal: "05:00",
-          },
-          {
-            id: 2,
-            nombre: "Pedro Paramo",
-            rol: "Mesera",
-            correo: "maria@example.com",
-            telfono: "+1 123 456 7891",
-            salario: "2200.00",
-            horarioInicio: "09:00",
-            horarioFinal: "05:00",
-          },
-          {
-            id: 3,
-            nombre: "López López",
-            rol: "Bartender",
-            correo: "carlos@example.com",
-            telfono: "+1 123 456 7892",
-            edad: "35 yr",
-            salario: "2200.00",
-            horarioInicio: "09:00",
-            horarioFinal: "05:00",
-          },
-          {
-            id: 4,
-            nombre: "Ana Martínez",
-            rol: "Host",
-            correo: "ana@example.com",
-            telfono: "+1 123 456 7893",
-            edad: "25 yr",
-            salario: "2200.00",
-            horarioInicio: "09:00",
-            horarioFinal: "05:00",
-          },
-          {
-            id: 5,
-            nombre: "Roberto Sánchez",
-            rol: "Chef Ejecutivo",
-            correo: "roberto@example.com",
-            telfono: "+1 123 456 7894",
-            edad: "15 yr",
-            salario: "2200.00",
-            horarioInicio: "09:00",
-            horarioFinal: "05:00",
-          },
-        ];
+        const response = await fetch('/api/staff'); 
+        if (!response.ok) {
+          throw new Error('Error al cargar los datos del staff');
+        }
+        const data = await response.json();
         setStaffData(data);
       } catch (error) {
         console.error("Error fetching staff data:", error);
@@ -82,7 +32,25 @@ const Staff = () => {
     fetchStaffData();
   }, []);
 
-  // Ejemplo haciendo POST
+  // Fetch de la API para Asistencia
+  useEffect(() => {
+    const fetchAttendanceData = async () => {
+      try {
+        const response = await fetch('/api/asistencia'); 
+        if (!response.ok) {
+          throw new Error('Error al cargar los datos de asistencia');
+        }
+        const data = await response.json();
+        setAttendanceData(data);
+      } catch (error) {
+        console.error('Error fetching attendance data:', error);
+      }
+    };
+
+    fetchAttendanceData();
+  }, []);
+
+  // Agregar nuevo staff al backend
   const addNewStaff = async (newStaff) => {
     try {
       const response = await fetch('/api/staff', {
@@ -90,8 +58,11 @@ const Staff = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newStaff),
       });
-     
-      setStaffData((prevData) => [...prevData, newStaff]);
+      if (!response.ok) {
+        throw new Error('Error al agregar el nuevo staff');
+      }
+      const addedStaff = await response.json();
+      setStaffData((prevData) => [...prevData, addedStaff]);
     } catch (error) {
       console.error("Error adding new staff:", error);
     }
@@ -123,7 +94,7 @@ const Staff = () => {
           />
         </TabsContent>
         <TabsContent value="attendance">
-          <StaffAsistencia />
+          <StaffAsistencia attendanceData={attendanceData} setAttendanceData={setAttendanceData} />
         </TabsContent>
       </Tabs>
     </div>

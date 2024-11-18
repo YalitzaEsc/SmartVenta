@@ -49,11 +49,11 @@ const StaffForm = () => {
     }
 
     try {
-      // Enviar datos al backend
+      
       await axios.post('/api/staff', newStaff);
       alert('Personal registrado exitosamente.');
 
-      // Limpiar campos y cerrar formulario
+      
       setNewStaff({
         nombre: "",
         correo: "",
@@ -74,7 +74,7 @@ const StaffForm = () => {
   };
 
   const handleCancel = () => {
-    // Limpiar campos y cerrar formulario
+    
     setNewStaff({
       nombre: "",
       correo: "",

@@ -19,7 +19,6 @@ const navItems = [
   { path: "/", icon: LayoutDashboard, label: "Dashboard" },
   { path: "/gestion", icon: Users, label: "Personal" },
   { path: "/menu", icon: ClipboardList, label: "Menú" },
-  { path: "/reservas", icon: ClipboardList, label: "Reservas" },
   { path: "/ordenes", icon: Utensils, label: "Pedidos/Mesas" },
   { path: "/inventario", icon: Box, label: "Inventario" },
   { path: "/notificaciones", icon: Bell, label: "Notificaciones" },

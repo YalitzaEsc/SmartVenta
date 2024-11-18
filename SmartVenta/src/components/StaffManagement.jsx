@@ -1,4 +1,4 @@
-/* eslint-disable react/prop-types */
+import React from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -22,6 +22,7 @@ const StaffManagement = ({ staffData, searchTerm, setSearchTerm, selectedRole, s
     "Administradora",
   ];
 
+  
   const filteredData = staffData.filter((employee) => {
     const matchesSearch =
       employee.nombre_completo?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -38,7 +39,6 @@ const StaffManagement = ({ staffData, searchTerm, setSearchTerm, selectedRole, s
           <CardTitle>Lista de Personal</CardTitle>
         </CardHeader>
         <CardContent>
-          {/* Barra de búsqueda y filtro por cargo */}
           <div className="flex gap-4 mb-6">
             <div className="relative flex-1">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -66,73 +66,76 @@ const StaffManagement = ({ staffData, searchTerm, setSearchTerm, selectedRole, s
             </Select>
           </div>
 
-          {/* Tabla de empleados */}
           <div className="rounded-md border">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Empleado</TableHead>
-                  <TableHead>Contacto</TableHead>
-                  <TableHead>Cargo</TableHead>
-                  <TableHead>Salario</TableHead>
-                  <TableHead>Horario</TableHead>
-                  <TableHead className="text-right">Acciones</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredData.map((employee) => (
-                  <TableRow key={employee.id_staff}>
-                    <TableCell className="font-medium">
-                      <div className="flex items-center gap-2">
-                        <div className="h-8 w-8 rounded-full bg-secondary flex items-center justify-center">
-                          {employee.nombre_completo.charAt(0)}
-                        </div>
-                        <div>
-                          <div className="font-medium">{employee.nombre_completo}</div>
-                        </div>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex flex-col gap-1">
-                        <div className="flex items-center gap-2">
-                          <Mail className="h-4 w-4 text-muted-foreground" />
-                          <span className="text-sm">{employee.correo}</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Phone className="h-4 w-4 text-muted-foreground" />
-                          <span className="text-sm">{employee.telefono}</span>
-                        </div>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant="secondary">{employee.cargo}</Badge>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex flex-col gap-1">
-                        <span className="text-sm">$ {employee.salario}</span>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <span className="text-sm">{employee.horario}</span>
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" className="h-8 w-8 p-0">
-                            <MoreVertical className="h-4 w-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuLabel>Acciones</DropdownMenuLabel>
-                          <DropdownMenuItem>Editar</DropdownMenuItem>
-                          <DropdownMenuItem className="text-destructive">Eliminar</DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </TableCell>
+            {filteredData.length > 0 ? (
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Empleado</TableHead>
+                    <TableHead>Contacto</TableHead>
+                    <TableHead>Cargo</TableHead>
+                    <TableHead>Salario</TableHead>
+                    <TableHead>Horario</TableHead>
+                    <TableHead className="text-right">Acciones</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody>
+                  {filteredData.map((employee) => (
+                    <TableRow key={employee.id_staff}>
+                      <TableCell className="font-medium">
+                        <div className="flex items-center gap-2">
+                          <div className="h-8 w-8 rounded-full bg-secondary flex items-center justify-center">
+                            {employee.nombre_completo.charAt(0)}
+                          </div>
+                          <div>
+                            <div className="font-medium">{employee.nombre_completo}</div>
+                          </div>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex flex-col gap-1">
+                          <div className="flex items-center gap-2">
+                            <Mail className="h-4 w-4 text-muted-foreground" />
+                            <span className="text-sm">{employee.correo}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Phone className="h-4 w-4 text-muted-foreground" />
+                            <span className="text-sm">{employee.telefono}</span>
+                          </div>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <Badge variant="secondary">{employee.cargo}</Badge>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex flex-col gap-1">
+                          <span className="text-sm">$ {employee.salario}</span>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <span className="text-sm">{employee.horario}</span>
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="h-8 w-8 p-0">
+                              <MoreVertical className="h-4 w-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuLabel>Acciones</DropdownMenuLabel>
+                            <DropdownMenuItem>Editar</DropdownMenuItem>
+                            <DropdownMenuItem className="text-destructive">Eliminar</DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            ) : (
+              <div className="text-center py-4">No se encontraron resultados.</div>
+            )}
           </div>
         </CardContent>
       </Card>

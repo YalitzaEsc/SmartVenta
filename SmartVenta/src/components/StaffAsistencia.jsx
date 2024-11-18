@@ -28,7 +28,7 @@ const StaffAsistencia = () => {
     }
   };
 
-  // Fetch de asistencia al montar el componente
+ 
   useEffect(() => {
     const fetchAttendance = async () => {
       try {

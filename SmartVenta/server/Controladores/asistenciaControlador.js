@@ -15,7 +15,7 @@ router.get('/asistencia', async (req, res) => {
     // Obtener asistencia del día actual
     const asistenciaQuery = `
       SELECT 
-        a.id_asistencia AS id,
+        a.id_asistencia,
         s.id_staff,
         s.nombre_completo AS nombre,
         s.cargo,
@@ -25,7 +25,6 @@ router.get('/asistencia', async (req, res) => {
       JOIN staff s ON a.id_staff = s.id_staff
       WHERE a.fecha = $1;
     `;
-
     const asistenciaHoy = await pool.query(asistenciaQuery, [currentDate]);
 
     // Determinar empleados sin asistencia registrada
@@ -38,7 +37,7 @@ router.get('/asistencia', async (req, res) => {
       const insertarAsistenciaQuery = `
         INSERT INTO asistencia (id_staff, fecha, estatus)
         VALUES ${empleadosSinAsistencia
-          .map(() => `($1, $2, 'No presente')`)
+          .map((_, index) => `($${index * 2 + 1}, $${index * 2 + 2}, 'No presente')`)
           .join(", ")}
         RETURNING id_asistencia, id_staff, fecha, estatus;
       `;
@@ -65,6 +64,7 @@ router.put('/asistencia/:id', async (req, res) => {
   const { id } = req.params;
   const { estatus } = req.body;
 
+  // Validación de datos
   if (!estatus) {
     return res.status(400).json({ error: 'El campo estatus es obligatorio' });
   }
@@ -77,7 +77,6 @@ router.put('/asistencia/:id', async (req, res) => {
       RETURNING *;
     `;
     const values = [estatus, id];
-
     const result = await pool.query(query, values);
 
     if (result.rowCount === 0) {

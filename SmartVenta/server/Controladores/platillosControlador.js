@@ -10,6 +10,7 @@ router.get('/', async (req, res) => {
       SELECT 
         p.id_platillo, 
         p.nombre AS nombre_platillo, 
+        p.cantidad_stock,
         p.precio, 
         p.calorias, 
         p.disponibilidad, 

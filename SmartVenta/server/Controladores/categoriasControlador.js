@@ -28,15 +28,26 @@ router.post('/', async (req, res) => {
   });
 
   // Ruta para obtener categorías
-router.get('/', async (req, res) => {
-  try {
-    const query = 'SELECT id_categoria, nombre, tipo_menu, descripcion FROM categoria_menu ORDER BY nombre';
-    const result = await pool.query(query);
-    res.status(200).json(result.rows);
-  } catch (error) {
-    console.error('Error al obtener categorías:', error);
-    res.status(500).json({ error: 'Error al obtener categorías' });
-  }
-});
+  router.get('/', async (req, res) => {
+    try {
+      const query = `
+        SELECT 
+          c.id_categoria, 
+          c.nombre, 
+          c.tipo_menu, 
+          c.descripcion, 
+          COUNT(p.id_platillo) AS count 
+        FROM categoria_menu c
+        LEFT JOIN platillos p ON c.id_categoria = p.id_categoria
+        GROUP BY c.id_categoria
+        ORDER BY c.nombre;
+      `;
+      const result = await pool.query(query);
+      res.status(200).json(result.rows);
+    } catch (error) {
+      console.error('Error al obtener categorías:', error);
+      res.status(500).json({ error: 'Error al obtener categorías' });
+    }
+  });
 
 export default router;

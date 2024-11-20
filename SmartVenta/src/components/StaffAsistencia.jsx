@@ -18,7 +18,7 @@ const StaffAsistencia = () => {
       case 'Presente':
         return 'default';
       case 'Ausente':
-        return 'warning';
+        return 'destructive';
       case 'Medio Tiempo':
         return 'secondary';
       case 'No Presente':

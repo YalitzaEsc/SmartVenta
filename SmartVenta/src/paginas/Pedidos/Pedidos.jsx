@@ -100,7 +100,7 @@ const Ordenes = () => {
   const loadOrders = async () => {
     setLoading(true);
     try {
-      const response = await fetch('/api/ordenes/ordenes-dia-actual'); // Ajusta la URL según tu API
+      const response = await fetch('/api/ordenes/ordenes-dia-actual'); 
       const data = await response.json();
       const formattedData = data.map(order => ({
         number: order.numero_orden_dia,
@@ -108,7 +108,7 @@ const Ordenes = () => {
         orderId: order.id_orden,
         status: order.estado,
         date: new Date(order.fecha).toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
-        time: order.hora.slice(0, 5), // Formato de hora y minutos
+        time: order.hora.slice(0, 5), 
         items: order.detalles.map(detalle => ({
           qty: detalle.cantidad,
           name: detalle.nombre,

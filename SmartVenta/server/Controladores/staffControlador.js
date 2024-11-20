@@ -64,4 +64,34 @@ router.post('/', async (req, res) => {
     }
 });
 
+// Ruta para borrar a los empleados
+router.delete('/:id', async (req, res) => {
+    const id = req.params.id;
+
+    try {
+        // Eliminar asistencia relacionada
+        const deleteAsistenciaQuery = `
+            DELETE FROM asistencia
+            WHERE id_staff = $1;
+        `;
+        await pool.query(deleteAsistenciaQuery, [id]);
+
+        // Eliminar empleado
+        const deleteStaffQuery = `
+            DELETE FROM staff
+            WHERE id_staff = $1
+            RETURNING *;
+        `;
+        const result = await pool.query(deleteStaffQuery, [id]);
+
+        res.status(200).json({
+            message: 'Personal eliminado exitosamente',
+            staff: result.rows[0],
+        });
+    } catch (error) {
+        console.error('Error al eliminar personal:', error);
+        res.status(500).json({ error: 'Error al eliminar el personal' });
+    }
+});
+
 export default router;

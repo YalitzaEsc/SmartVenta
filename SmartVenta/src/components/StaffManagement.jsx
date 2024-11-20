@@ -2,13 +2,13 @@ import React from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Search, Mail, BadgeCheck, Phone, MoreVertical } from "lucide-react";
+import { Search, Mail, Phone, MoreVertical } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-const StaffManagement = ({ staffData, searchTerm, setSearchTerm, selectedRole, setSelectedRole }) => {
+const StaffManagement = ({ staffData, setStaffData, searchTerm, setSearchTerm, selectedRole, setSelectedRole }) => {
   const positions = [
     "Todos",
     "Cocinero",
@@ -22,7 +22,21 @@ const StaffManagement = ({ staffData, searchTerm, setSearchTerm, selectedRole, s
     "Administradora",
   ];
 
-  
+  const handleDelete = async (id) => {
+    try {
+      const response = await fetch(`/api/staff/${id}`, {
+        method: 'DELETE',
+      });
+      if (response.ok) {
+        setStaffData((prevData) => prevData.filter((employee) => employee.id_staff !== id));
+      } else {
+        console.error('Error al eliminar el empleado');
+      }
+    } catch (error) {
+      console.error('Error al eliminar el empleado:', error);
+    }
+  };
+
   const filteredData = staffData.filter((employee) => {
     const matchesSearch =
       employee.nombre_completo?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -125,7 +139,7 @@ const StaffManagement = ({ staffData, searchTerm, setSearchTerm, selectedRole, s
                           <DropdownMenuContent align="end">
                             <DropdownMenuLabel>Acciones</DropdownMenuLabel>
                             <DropdownMenuItem>Editar</DropdownMenuItem>
-                            <DropdownMenuItem className="text-destructive">Eliminar</DropdownMenuItem>
+                            <DropdownMenuItem className="text-destructive" onClick={() => handleDelete(employee.id_staff)}>Eliminar</DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </TableCell>

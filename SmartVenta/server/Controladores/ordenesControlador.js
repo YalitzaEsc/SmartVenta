@@ -73,7 +73,7 @@ router.get("/ordenes-dia-actual", async (req, res) => {
 
 
   // Ruta para actualizar el estado de una orden a "Listo"
-router.put("/ordenes/:id/listo", async (req, res) => {
+router.put("/:id/listo", async (req, res) => {
     const { id } = req.params;
   
     try {
@@ -92,7 +92,7 @@ router.put("/ordenes/:id/listo", async (req, res) => {
   });
   
   // Ruta para actualizar el estado de una orden a "Completado"
-  router.put("/ordenes/:id/completado", async (req, res) => {
+  router.put("/:id/completado", async (req, res) => {
     const { id } = req.params;
 
     try {
@@ -111,7 +111,7 @@ router.put("/ordenes/:id/listo", async (req, res) => {
 });
 
 // Ruta para eliminar una orden
-router.delete("/ordenes/:id", async (req, res) => {
+router.delete("/:id", async (req, res) => {
     const { id } = req.params;
   
     try {

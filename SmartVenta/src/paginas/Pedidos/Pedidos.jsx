@@ -27,7 +27,7 @@ const OrderCard = ({ order, onDelete, onEdit, onPay, onMarkReady }) => {
             variant="outline" 
             className={
               order.status === 'Listo' ? 'bg-green-500/10 text-green-500 border-green-500/20' :
-              order.status === 'En Proceso' ? 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20' :
+              order.status === 'En proceso' ? 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20' :
               order.status === 'Completado' ? 'bg-blue-500/10 text-blue-500 border-blue-500/20' :
               ''
             }
@@ -183,7 +183,7 @@ const Ordenes = () => {
       order.orderId.toString().includes(searchTerm);
     
     if (currentTab === "all") return matchesSearch;
-    if (currentTab === "inProcess") return order.status === "En Proceso" && matchesSearch;
+    if (currentTab === "inProcess") return order.status === "En proceso" && matchesSearch;
     if (currentTab === "completed") return order.status === "Completado" && matchesSearch;
     if (currentTab === "ready") return order.status === "Listo" && matchesSearch;
     return matchesSearch;

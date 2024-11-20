@@ -4,54 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { Pencil, Trash2 } from "lucide-react";
+import { Check, Trash2 } from "lucide-react";
 import { useNavigate } from 'react-router-dom';
 
-const data = [
-    {
-      number: 1,
-      customerName: "Logan Roy",
-      orderId: "990",
-      status: "En Proceso",
-      date: "Lunes, 28, 2024",
-      time: "4:20 AM",
-      items: [
-        { qty: 1, name: "Chilaquiles", price: "199" },
-        { qty: 1, name: "Sopita", price: "120" },
-        { qty: 2, name: "Catsup con huevito", price: "220" },
-        { qty: 1, name: "Coca", price: "110" },
-      ],
-      total: "649"
-    },
-    {
-      number: 2,
-      customerName: "Kendall Roy",
-      orderId: "991",
-      status: "Ready",
-      date: "Lunes, 28, 2024",
-      time: "4:30 AM",
-      items: [
-        { qty: 2, name: "Tacos", price: "150" },
-        { qty: 1, name: "Quesadillas", price: "180" },
-      ],
-      total: "330"
-    },
-    {
-      number: 3,
-      customerName: "Shiv Roy",
-      orderId: "992",
-      status: "Completado",
-      date: "Lunes, 28, 2024",
-      time: "4:40 AM",
-      items: [
-        { qty: 1, name: "Enchiladas", price: "220" },
-        { qty: 1, name: "Agua Fresca", price: "50" },
-      ],
-      total: "270"
-    }
-  ]
-
-const OrderCard = ({ order, onDelete, onEdit, onPay }) => {
+const OrderCard = ({ order, onDelete, onEdit, onPay, onMarkReady }) => {
   const isCompleted = order.status === "Completado";
   
   return (
@@ -70,7 +26,7 @@ const OrderCard = ({ order, onDelete, onEdit, onPay }) => {
           <Badge 
             variant="outline" 
             className={
-              order.status === 'Ready' ? 'bg-green-500/10 text-green-500 border-green-500/20' :
+              order.status === 'Listo' ? 'bg-green-500/10 text-green-500 border-green-500/20' :
               order.status === 'En Proceso' ? 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20' :
               order.status === 'Completado' ? 'bg-blue-500/10 text-blue-500 border-blue-500/20' :
               ''
@@ -110,8 +66,8 @@ const OrderCard = ({ order, onDelete, onEdit, onPay }) => {
           </div>
           {!isCompleted && (
             <div className="flex gap-2">
-              <Button variant="outline" size="icon" className="h-8 w-8" onClick={() => onEdit(order)}>
-                <Pencil className="h-4 w-4" />
+              <Button variant="outline" size="icon" className="h-8 w-8" onClick={() => onMarkReady(order)}>
+                <Check className="h-4 w-4" />
               </Button>
               <Button variant="outline" size="icon" className="h-8 w-8" onClick={() => onDelete(order)}>
                 <Trash2 className="h-4 w-4" />
@@ -120,7 +76,7 @@ const OrderCard = ({ order, onDelete, onEdit, onPay }) => {
                 className="bg-pink-200 text-black hover:bg-pink-300 text-sm"
                 onClick={() => onPay(order)}
               >
-                Pay Bill
+                Pagar
               </Button>
             </div>
           )}
@@ -137,18 +93,31 @@ const Ordenes = () => {
   const [currentTab, setCurrentTab] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
 
-  //simulando la llamada a la API
   useEffect(() => {
     loadOrders();
   }, []);
 
-  const loadOrders = () => {
+  const loadOrders = async () => {
     setLoading(true);
     try {
-      setTimeout(() => {
-        setOrders(data);
-        setLoading(false); 
-      }, 1000);
+      const response = await fetch('/api/ordenes/ordenes-dia-actual'); // Ajusta la URL según tu API
+      const data = await response.json();
+      const formattedData = data.map(order => ({
+        number: order.numero_orden_dia,
+        customerName: order.mesero,
+        orderId: order.id_orden,
+        status: order.estado,
+        date: new Date(order.fecha).toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),
+        time: order.hora.slice(0, 5), // Formato de hora y minutos
+        items: order.detalles.map(detalle => ({
+          qty: detalle.cantidad,
+          name: detalle.nombre,
+          price: detalle.precio
+        })),
+        total: order.subtotal
+      }));
+      setOrders(formattedData);
+      setLoading(false); 
     } catch (error) {
       console.error("Error loading orders:", error);
       setLoading(false);
@@ -159,9 +128,16 @@ const Ordenes = () => {
     navigate('/nueva-orden');
   };
 
-  const handleDelete = (order) => {
+  const handleDelete = async (order) => {
     if (window.confirm(`¿Estás seguro de eliminar la orden #${order.orderId}?`)) {
-      setOrders(orders.filter(o => o.orderId !== order.orderId));
+      try {
+        await fetch(`/api/ordenes/${order.orderId}`, {
+          method: 'DELETE',
+        });
+        setOrders(orders.filter(o => o.orderId !== order.orderId));
+      } catch (error) {
+        console.error("Error deleting order:", error);
+      }
     }
   };
 
@@ -169,31 +145,54 @@ const Ordenes = () => {
     navigate(`/editar-orden/${order.orderId}`);
   };
 
-  const handlePay = (order) => {
-    const updatedOrders = orders.map(o => 
-      o.orderId === order.orderId 
-        ? { ...o, status: "Completado" }
-        : o
-    );
-    setOrders(updatedOrders);
+  const handlePay = async (order) => {
+    try {
+      await fetch(`/api/ordenes/${order.orderId}/completado`, {
+        method: 'PUT',
+      });
+      const updatedOrders = orders.map(o => 
+        o.orderId === order.orderId 
+          ? { ...o, status: "Completado" }
+          : o
+      );
+      setOrders(updatedOrders);
+    } catch (error) {
+      console.error("Error updating order to 'Completado':", error);
+    }
+  };
+
+  const handleMarkReady = async (order) => {
+    try {
+      await fetch(`/api/ordenes/${order.orderId}/listo`, {
+        method: 'PUT',
+      });
+      const updatedOrders = orders.map(o => 
+        o.orderId === order.orderId 
+          ? { ...o, status: "Listo" }
+          : o
+      );
+      setOrders(updatedOrders);
+    } catch (error) {
+      console.error("Error updating order to 'Listo':", error);
+    }
   };
 
   const filteredOrders = orders.filter(order => {
     const matchesSearch = 
       order.customerName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      order.orderId.includes(searchTerm);
+      order.orderId.toString().includes(searchTerm);
     
     if (currentTab === "all") return matchesSearch;
     if (currentTab === "inProcess") return order.status === "En Proceso" && matchesSearch;
     if (currentTab === "completed") return order.status === "Completado" && matchesSearch;
-    if (currentTab === "ready") return order.status === "Ready" && matchesSearch;
+    if (currentTab === "ready") return order.status === "Listo" && matchesSearch;
     return matchesSearch;
   });
 
   return (
     <div className="p-8 lg:max-w-screen-xl m-auto">
       <header className="flex justify-between items-center mb-6">
-        <h2 className="text-4xl font-semibold text-foreground">Ordenes</h2>
+        <h2 className="text-4xl font-semibold text-foreground">Órdenes</h2>
         <div className="flex gap-4">
           <Button onClick={handleNewOrder}>
             Agregar Nueva Orden
@@ -216,7 +215,7 @@ const Ordenes = () => {
             Todas
           </TabsTrigger>
           <TabsTrigger value="inProcess">En Proceso</TabsTrigger>
-          <TabsTrigger value="ready">Ready</TabsTrigger>
+          <TabsTrigger value="ready">Listo</TabsTrigger>
           <TabsTrigger value="completed">Completadas</TabsTrigger>
         </TabsList>
       </Tabs>
@@ -232,6 +231,7 @@ const Ordenes = () => {
               onDelete={handleDelete}
               onEdit={handleEdit}
               onPay={handlePay}
+              onMarkReady={handleMarkReady}
             />
           ))}
         </div>

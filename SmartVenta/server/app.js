@@ -8,6 +8,8 @@ import categoriasRouter from './Controladores/categoriasControlador.js';
 import platillosRouter from './Controladores/platillosControlador.js';
 import staffRouter from './Controladores/staffControlador.js';
 import asistenciaRouter from './Controladores/asistenciaControlador.js';
+import meserosRouter from './Controladores/meserosControlador.js';
+import ordenesRouter from './Controladores/ordenesControlador.js';
 
 const app = express();
 
@@ -21,7 +23,9 @@ app.use(bodyParser.urlencoded({ extended: true })); // Parsear datos de formular
 app.use('/api/categorias', categoriasRouter);
 app.use('/api/platillos', platillosRouter);
 app.use('/api/staff', staffRouter);
+app.use('/api/meseros', meserosRouter);
 app.use('/api', asistenciaRouter);
+app.use('/api/ordenes', ordenesRouter);
 
 
 // Exportamos la app para que `index.js` la use

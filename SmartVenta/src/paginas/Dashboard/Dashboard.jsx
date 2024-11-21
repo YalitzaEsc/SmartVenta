@@ -15,6 +15,14 @@ import {
 } from "@/components/ui/table";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
+
+const formatCurrency = new Intl.NumberFormat('es-MX', {
+  style: 'currency',
+  currency: 'MXN',
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+});
+
 const Dashboard = () => {
   const [dashboardData, setDashboardData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -75,7 +83,7 @@ const Dashboard = () => {
             <CardTitle className="text-base font-medium">Ventas Totales</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-3xl font-bold">${ventasTotales}</p>
+            <p className="text-3xl font-bold">{formatCurrency.format(ventasTotales)}</p>
           </CardContent>
         </Card>
 
@@ -84,7 +92,7 @@ const Dashboard = () => {
             <CardTitle className="text-base font-medium">Ganancias Totales</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="text-3xl font-bold">${gananciasTotales}</p>
+            <p className="text-3xl font-bold">{formatCurrency.format(gananciasTotales)}</p>
           </CardContent>
         </Card>
 
@@ -109,6 +117,7 @@ const Dashboard = () => {
               <LineChart data={salesData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="fecha" />
+                <YAxis domain={[0, 30000]} />
                 <YAxis />
                 <Tooltip />
                 <Line 

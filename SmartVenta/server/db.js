@@ -4,8 +4,8 @@ const { Pool } = pkg; // Extrae la clase Pool del paquete
 const pool = new Pool({
     user: 'postgres',
     host: process.env.PG_HOST,
-    database: 'SmartVenta',
-    password: '98490133',
+    database: 'SmartVentas',
+    password: '123',
     port: process.env.PG_PORT,
   });
 

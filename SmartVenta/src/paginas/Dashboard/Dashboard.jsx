@@ -14,6 +14,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { Button } from "antd";
+import CrearAnalisis from "@/components/CrearAnalisis.jsx";
+import Jerarquia from "@/Classes/Jerarquia";
+
 
 
 const formatCurrency = new Intl.NumberFormat('es-MX', {
@@ -26,6 +30,7 @@ const formatCurrency = new Intl.NumberFormat('es-MX', {
 const Dashboard = () => {
   const [dashboardData, setDashboardData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [mostrarCrear,setMostrarCrear] = useState(null);
 
   useEffect(() => {
     const fetchDashboardData = async () => {
@@ -35,7 +40,7 @@ const Dashboard = () => {
           throw new Error(`Error en la API: ${response.statusText}`);
         }
         const data = await response.json();
-        console.log(data); 
+        console.log(data);
         setDashboardData(data);
       } catch (error) {
         console.error('Error al obtener los datos del dashboard:', error);
@@ -66,7 +71,7 @@ const Dashboard = () => {
     ventas: dia.ventas_totales_dia,
   }));
 
- 
+
   const platillosPopulares = dashboardData[0]?.platillos_populares || [];
   const platillosMenosVendidos = dashboardData[0]?.platillos_menos_vendidos || [];
 
@@ -76,7 +81,17 @@ const Dashboard = () => {
         <h2 className="text-4xl font-semibold text-foreground">Dashboard Semanal</h2>
       </header>
 
-      {/* Tarjetas de Resumen */}
+
+      <div>
+        <Button onClick={()=>{setMostrarCrear(true)}}>Crear</Button>
+        <Button onClick={()=>{setMostrarCrear(false)}}>Abrir</Button>
+        {mostrarCrear?<Button onClick={()=>{Jerarquia.crearJerarquia()}}>Guardar</Button>:null}
+        {mostrarCrear?<input></input>:null}
+        {mostrarCrear?<CrearAnalisis/>:<div>dsfsdfs</div>}
+      </div>
+
+
+
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <Card>
           <CardHeader className="pb-2">
@@ -120,11 +135,11 @@ const Dashboard = () => {
                 <YAxis domain={[0, 30000]} />
                 <YAxis />
                 <Tooltip />
-                <Line 
-                  type="monotone" 
-                  dataKey="ventas" 
-                  stroke="hsl(var(--primary))" 
-                  strokeWidth={2} 
+                <Line
+                  type="monotone"
+                  dataKey="ventas"
+                  stroke="hsl(var(--primary))"
+                  strokeWidth={2}
                 />
               </LineChart>
             </ResponsiveContainer>

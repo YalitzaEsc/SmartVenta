@@ -1,0 +1,29 @@
+.tabla{
+    display: flex;
+    flex-direction: column;
+    background-color: transparent;
+    width: 25vw;
+    margin: 10px;
+}
+h3{
+    font-size: 30px;
+    text-align: center;
+    color: white;
+}
+.columna{
+    font-size: 30px;
+    text-align: left;
+    border-radius: 0;
+    background-color: gray;
+    border: solid gray;
+    height: 100px;
+    width: 100%;
+    padding: 10px;
+    color: white;
+}
+.columna:hover{
+  background-color: brown;
+}
+.columna:active{
+    background-color: black;
+  }

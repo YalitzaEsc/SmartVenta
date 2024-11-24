@@ -11,7 +11,7 @@ import asistenciaRouter from './Controladores/asistenciaControlador.js';
 import meserosRouter from './Controladores/meserosControlador.js';
 import ordenesRouter from './Controladores/ordenesControlador.js';
 import dashboardRouter from './Controladores/dashboardControlador.js';
-
+import hechosRouter from './Controladores/hechosRouter.js'
 const app = express();
 
 // Middlewares
@@ -28,6 +28,6 @@ app.use('/api/meseros', meserosRouter);
 app.use('/api', asistenciaRouter);
 app.use('/api/ordenes', ordenesRouter);
 app.use('/api/dashboard', dashboardRouter);
-
+app.use('/api/dashboardHechos/:query',hechosRouter);
 
 export default app;

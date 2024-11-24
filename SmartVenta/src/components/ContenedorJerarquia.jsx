@@ -4,13 +4,13 @@ import Jerarquia from '../Classes/Jerarquia.jsx';
 import { useState, useEffect } from 'react';
 
 function ContenedorJerarquia() {
-    const [menuItems, setMenuItems] = useState(Jerarquia.convertToMenuItems()); // Estado para los items del menú
+    const [menuItems, setMenuItems] = useState(Jerarquia.convertToMenuItemsAnalisis()); // Estado para los items del menú
 
     // Suscripción a cambios en la jerarquía
     useEffect(() => {
         // Función que se ejecuta cuando hay un cambio en la jerarquía
         const handleUpdate = () => {
-            setMenuItems(Jerarquia.convertToMenuItems()); // Actualiza los items del menú
+            setMenuItems(Jerarquia.convertToMenuItemsAnalisis()); // Actualiza los items del menú
         };
 
         // Agregar el listener que actualizará el estado
